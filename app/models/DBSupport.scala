@@ -1,7 +1,7 @@
 package models
 
-//import scala.slick.driver.H2Driver.simple._
-import scala.slick.driver.PostgresDriver.simple._
+import scala.slick.driver.H2Driver.simple._
+//import scala.slick.driver.PostgresDriver.simple._
 import Database.threadLocalSession
 
 trait DBSupport {
