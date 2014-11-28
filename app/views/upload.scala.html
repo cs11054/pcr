@@ -1,0 +1,21 @@
+@(msg:String = "")
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Todo list") {
+    
+    <h1>Upload Page</h1>
+    
+    <p>@msg</p>
+    
+    @helper.form(action = routes.Application.uploaded, 'enctype -> "multipart/form-data") {
+    <input type="file" name="source">
+    
+    <p>
+        <input type="submit">
+    </p>
+    
+}
+    
+}

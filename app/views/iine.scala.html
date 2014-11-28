@@ -1,0 +1,33 @@
+@(sid:Int,uid:String,iineCount:Int)
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Comments
+
+<html>
+<head>
+	<style type="text/css">
+	
+.iinebutton {
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px 10px;
+	border-style: none;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #248;
+	color: #fff;
+}
+
+.iinebutton:hover {
+	opacity: 0.8;
+}
+	
+    </style>  
+</head>
+	<body>
+		@form(routes.Application.pushIine(sid,uid)) {
+			<input type="submit" value="いいね！[@iineCount]" class="iinebutton">
+		}
+	</body>
+</html>

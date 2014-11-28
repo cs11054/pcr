@@ -1,0 +1,39 @@
+input {
+}
+
+.caption {
+	margin: 10px;
+}
+
+.iineframe {
+	border: none;
+	height: 72px;
+}
+
+.comment:after {
+	border-color: #34495e rgba(52, 73, 94, 0) rgba(52, 73, 94, 0);
+	border-style: solid;
+	border-width: 18px;
+	content: " ";
+	margin-top: -10px;
+	pointer-events: none;
+	position: absolute;
+	right: 3%;
+	top: 100%;
+	width: 0;
+	z-index: -5;
+}
+
+.comment {
+	background: none repeat scroll 0 0 #34495e;
+	border-radius: 5px;
+	color: #ecf0f1;
+	margin-top: 24px;
+	padding: 3px 3px 3px 10px;
+	word-wrap: break-word;
+	position: relative;
+}
+
+.comment pre {
+	white-space: pre-wrap;
+}

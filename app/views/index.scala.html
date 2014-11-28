@@ -1,0 +1,16 @@
+@(message: String)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Welcome to Play") {
+
+   <h1>Logined @message</h1>>
+	
+	@form(routes.Application.logout) {
+		<input type="submit" value="Logout">
+	}
+	
+
+}

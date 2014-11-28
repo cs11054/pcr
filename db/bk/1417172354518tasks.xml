@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+         <root>
+           <items>
+              <item><subjectid>180</subjectid><userid>cs11054</userid><taskid>1</taskid><caption>実名</caption><body>//昇順ソートを行うクラス&#xA;public class Bubble {&#xA;	public static void main(String[] args) {&#xA;		// データの格納&#xA;		int[] data = { 4, 7, 10, 2, 5 };&#xA;		// 昇順ソート&#xA;		for (int i = 0; i &lt; data.length - 1; i++) {&#xA;			for (int j = 0; j &lt; data.length - i - 1; j++) {&#xA;				if (data[j] &gt; data[j + 1]) {&#xA;					int asc = data[j];&#xA;					data[j] = data[j + 1];&#xA;					data[j + 1] = asc;&#xA;				}&#xA;			}&#xA;		}&#xA;		// ソート後の結果を出力&#xA;		for (int i = 0; i &lt; data.length; i++) {&#xA;			System.out.print(data[i] + &quot; &quot;);&#xA;		}&#xA;	}&#xA;}</body><date>1417172181488</date><viewid>cs11054</viewid></item>
+           </items>
+         </root>

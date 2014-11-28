@@ -1,0 +1,44 @@
+import java.awt.Point;
+
+public class Circle {
+	private Point c = new Point(0, 0);
+	private int r = 1;
+
+	public int getRadius() {
+		return r;
+	}
+
+	public void setRadius(int r) {
+		this.r = r;
+	}
+
+	public void moveTo(Point p) {
+		this.c = p;
+	}
+
+	public void moveTo(int x, int y) {
+		c.setLocation(x, y);
+
+	}
+
+	public void moveBy(int dx, int dy) {
+		Point newCenter = new Point(c.x + dx, c.y + dy);
+		moveTo(newCenter);
+
+	}
+
+	public Point getLocation() {
+		return c;
+	}
+}
+
+class Client {
+	public static void main(String[] args) {
+		Point center = new Point(1, 1);
+		Circle circle = new Circle();
+		circle.setRadius(7);
+		circle.moveTo(center);
+		System.out.print("center=" + circle.getLocation() + "radius="
+				+ circle.getRadius());
+	}
+}

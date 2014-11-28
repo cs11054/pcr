@@ -1,0 +1,112 @@
+/* トップサイドバーとメイン **********************************/
+#sidebar {
+	float: left;
+	width: 200px; /* サイドバーの幅 */
+}
+
+#main {
+	margin-left: 200px;
+}
+/* トップサイドバーとメイン終わり **********************************/
+
+/*  ソートボタン部分******************************/
+#sort {
+	background-color: #bdc3c7;
+	margin-top: 10px;
+	padding: 5px;
+	color: #ecf0f1;
+	border-radius: 5px;
+}
+
+#sort .active {
+	font-weight: bold;
+}
+
+#sort p {
+	color: #34495e;
+	display: inline;
+}
+
+#sort div {
+	text-align: center;
+	display: inline-block;
+}
+
+#sort a {
+	padding:5px;
+	border-radius: 5px;
+	background-color: #7f8c8d;
+	color: #ecf0f1;
+	text-decoration: none;
+	display: block;
+	text-decoration: none;
+	width: 150px;
+}
+
+#sort a:hover {
+	background-color: #34495e;
+}
+/* ソートボタン部分終わり******************************/
+
+/* 課題一覧 **********************************/
+#subjects {
+	list-style-type: none;
+	margin: 0 0 2em;
+	padding: 0;
+}
+
+#subjects ul {
+	margin: 0;
+	padding: 0;
+}
+
+#subjects li {
+	display: inline;
+}
+
+#subjects li a {
+	border-radius: 5px;
+	text-align: center;
+	margin: 10px;
+	padding: 10px;
+	display: block;
+	background-color: #9b59b6;
+	color: #ecf0f1;
+	text-decoration: none;
+	border-bottom: 1px solid #ffffff;
+}
+
+#subjects li a:hover {
+	background-color: #8e44ad;
+	color: #ecf0f1;
+}
+
+.sbj-active{
+	background-color:#7d33ac !important ;
+}
+
+/* 課題一覧終わり *******************************/
+
+/* 提出一覧 *******************************/
+#posts ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#posts li {
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	padding: 10px;
+	margin: 10px;
+	background-color: #34495e;
+	color: #ecf0f1;
+	border: 0px;
+}
+
+#posts a {
+	text-decoration: none;
+}
+/* 提出一覧終わり *******************************/

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+         <root>
+           <items>
+              <item><subjectid>180</subjectid><userid>cs11054</userid><commentid>1</commentid><postUser>cs11054</postUser><body>aaa</body><date>1417169810983</date><isNew>false</isNew><viewid>cs11054</viewid><res>false</res></item><item><subjectid>180</subjectid><userid>cs11054</userid><commentid>2</commentid><postUser>cs11054</postUser><body>ttt</body><date>1417169814513</date><isNew>false</isNew><viewid>??0</viewid><res>false</res></item><item><subjectid>180</subjectid><userid>cs11054</userid><commentid>3</commentid><postUser>cs22054</postUser><body>1aaa</body><date>1417169854013</date><isNew>false</isNew><viewid>cs11054</viewid><res>false</res></item><item><subjectid>180</subjectid><userid>cs11054</userid><commentid>4</commentid><postUser>cs22054</postUser><body>2bbb</body><date>1417169857413</date><isNew>false</isNew><viewid>??1</viewid><res>false</res></item><item><subjectid>179</subjectid><userid>??2</userid><commentid>1</commentid><postUser>cs11054</postUser><body>bbb</body><date>1417169939253</date><isNew>true</isNew><viewid>??3</viewid><res>false</res></item>
+           </items>
+         </root>

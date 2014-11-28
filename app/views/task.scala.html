@@ -1,0 +1,86 @@
+@(sid:Int,vid:String,tid:Int,tasksWithIdx:List[((String,String),Int)],comments:List[Comment],msg:String="")
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Tasks
+
+@main("ソースコード",styles=List("tab","prettify","task"),jss=List("prettify","tab")) {
+<script>
+	function checkRes() {
+		var checkedBoxs = $('[class="resCheck"]:checked').map(function() {
+			return $(this).val();
+		}).get().join(',');
+		$("#rescmt").val(checkedBoxs);
+	}
+</script>
+<div id="main">
+	<p>@msg</p>
+	<div id="codes">
+		@printCode2Tab(tid)	
+	</div>
+	
+	<hr>
+
+	<iframe src="@routes.Application.iine(sid,vid)" class="iineframe">
+	</iframe>
+
+	<div id="comments">
+		@printComment()
+	</div>
+<hr>
+	@form(routes.Application.cmtPost(sid,vid,tid)) {
+		<p>コメントの投稿</p>
+		<input type="checkbox" name="anonymous" value="anony">匿名で投稿<br>
+		<textarea id="cmtbody" name="body" placeholder="コメントを入力(例:4行目のメソッド名はregistではなくregistrationが適切だと思います。)"  cols="60"></textarea><br>
+		<input type="submit" value="コメント投稿">
+		<input type="hidden" id = "rescmt" name="resCmts" value="">
+	}
+@prettyPrintDecl()
+</div>
+}
+
+@printComment()={
+	<p>コメント一覧</p>
+	<ul>
+		@for(cmt <- comments){
+			<li class="comment" id="cmt@cmt.commentid">
+				@cmt.formatDate() @Users.getName(cmt.viewid) 
+				<input type="checkbox" name="cid" class ="resCheck" value="@cmt.commentid" onclick="checkRes();">返信
+				<pre >@cmt.body</pre>
+				
+			</li>
+		}
+	</ul>
+}
+
+
+@prettyPrintDecl()={
+	<link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+	<script type="text/javascript">
+		jQuery(function() {
+			prettyPrint();
+		});
+	</script>
+}
+
+@printCode2Tab(selectNum:Int) = {
+	<ul id="tab">
+		@for((task,i) <- tasksWithIdx){
+			<li @if(i==(selectNum-1)){class="selected active"}>
+				<a href="#tab@i">コード@{i+1}</a>
+			</li>
+		} 
+	</ul>
+	<div id="detail">
+		@for((task,i) <- tasksWithIdx){
+			<div id="tab@i" class="tabbox" @if(i==(selectNum-1)){style="display:block"}>
+			<pre class="caption">
+@task._1</pre>
+				<pre class="prettyprint linenums">
+@task._2</pre>
+			</div>
+		}
+		
+	</div>
+}
+

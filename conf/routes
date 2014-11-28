@@ -1,0 +1,34 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET    /                         controllers.Application.index
+
+# User
+GET    /user                     controllers.Application.user
+
+# Subject
+GET    /subject/:sid             controllers.Application.subject(sid:Int,sort:String ?="date",msg:String?="")
+
+# Task
+GET    /subject/:sid/:vid        controllers.Application.task(sid:Int,vid: String,tid:Option[Int])
+POST   /subject/:sid/:vid/:tid   controllers.Application.cmtPost(sid:Int,vid: String,tid:Int)
+GET    /iine                     controllers.Application.iine(sid:Int,uid: String)
+POST   /iine                     controllers.Application.pushIine(sid:Int,uid: String)
+
+# Admin
+GET    /manage                   controllers.Manage.manage()
+POST   /manage                   controllers.Manage.managed(kind:String)
+
+# Upload
+GET    /upload                   controllers.Application.upload
+POST   /uploaded                 controllers.Application.uploaded
+
+# Login
+GET    /login                    controllers.Application.login
+POST   /login                    controllers.Application.loginCheck
+GET    /logout                   controllers.Application.logout
+
+# Map static resources from the /public folder to the /assets URL path
+GET    /assets/*file             controllers.Assets.at(path="/public", file)

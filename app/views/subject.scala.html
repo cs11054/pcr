@@ -1,0 +1,75 @@
+@(sid:Int=Subjects.newestNum,subjects:List[Subject],tasks:List[Task], msg:String = "",sort:String="date")
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(sname,styles=List("subject")) {
+	<div id="sidebar">
+		<div id="subjects">
+			@allSubjects
+		</div>
+	</div>
+
+	<div id="main">
+	<p>@msg</p>
+	
+		<div id="newpost">
+			@postForm
+		</div>
+
+		<div id = "sort">
+			@printSort
+		</div>
+
+		<div id="posts">
+			@allTasks
+		</div>
+
+	</div>
+}
+
+@printSort ={
+	<p>ソート：</p>
+	<div><a href="@routes.Application.subject(sid,if(sort=="date"){"rdate"}else{"date"})" @if(sort.endsWith("date")){class="active"}>
+	時間@if(sort=="date"){[↑]}@if(sort=="rdate"){[↓]}</a></div>
+	<div><a href="@routes.Application.subject(sid,if(sort=="iine"){"riine"}else{"iine"})" @if(sort.endsWith("iine")){class="active"}>
+	いいね！！@if(sort=="iine"){[↑]}@if(sort=="riine"){[↓]}</a></div>
+	<div><a href="@routes.Application.subject(sid,if(sort=="cmt"){"rcmt"}else{"cmt"})" @if(sort.endsWith("cmt")){class="active"}>
+	コメント@if(sort=="cmt"){[↑]}@if(sort=="rcmt"){[↓]}</a></div>
+}
+
+@postForm ={
+	@helper.form(action = routes.Application.uploaded, 'enctype -> "multipart/form-data") {
+			<input type="file" name="source">
+			<input type="checkbox" name="anonymous">匿名で投稿<br>
+			<textarea name="caption" placeholder="コメントを入力(例:速度重視で頑張ってみました。)"  cols="60"></textarea><br>
+			<input type="hidden" name="sid" value="@sid">
+   			<input type="submit">
+	}
+}
+
+
+@sname = @{subjects.find(_.subjectid==sid).map(_.name).getOrElse("未登録課題")}
+@allSubjects = {
+<ul>
+	@subjects.map{ sbj=>
+		<li>
+			@form(routes.Manage.managed("deleteSubject")) {
+				<a href="@routes.Application.subject(sbj.subjectid)" @if(sbj.subjectid==sid){class="sbj-active"}>@sbj.name</a>
+			}
+		</li>
+	}
+</ul>
+}
+
+@allTasks = {
+<ul>
+	@tasks.map{ tsk=>
+		<a href=@routes.Application.task(sid,tsk.viewid,Some(tsk.taskid))><li>
+			<span class="left">名前：@Users.getName(tsk.viewid)</span><span class="right">@tsk.formatDate()</span><br>
+			<pre class="inline">@tsk.caption</pre>
+		</li></a>
+	}
+</ul>
+}
+
+

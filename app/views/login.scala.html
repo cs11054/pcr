@@ -1,0 +1,20 @@
+@(loginForm: Form[(String,String)])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("ログイン") {
+	
+	<h1>ログインフォーム</h1>
+	
+	@form(routes.Application.loginCheck) {
+		@helper.inputText(loginForm("id"))
+		@helper.inputPassword(loginForm("password"))
+		<input type="submit" value="Login">
+		@if(loginForm.errors){
+			<p class="alert alert-danger">IDかPASSWORDが間違っています。</p>
+		}
+    }
+
+}

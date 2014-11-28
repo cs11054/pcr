@@ -1,0 +1,93 @@
+@(id:String,postTasks:List[Task],recvIines:List[Iine],postComments:List[Comment],recvComments:List[Comment])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(id,styles=List("userhome")) {
+	
+	<div id="main">
+
+<table><tr>
+<td>				
+		<div id="recvcomments">
+			@printRcvComment
+		</div>
+</td>
+<td>
+		<div id="recviines">
+			@printRecvIine
+		</div>
+</td></tr>
+<tr><td>
+		<div id ="mylog">
+			@printPostTask
+		</div>
+</td>
+<td>
+		<div id="postcomments">
+			@printPostComment
+		</div>
+</td></tr></table>
+
+	</div>
+	
+}
+
+@printPostTask = {
+	<h2>投稿したファイル</h2>
+		<ul>
+			@for(task <- postTasks){
+				<a href="@routes.Application.task(task.subjectid,task.viewid,Some(task.taskid))">
+					<li class="outline">
+						<span class="left">@Subjects.getTitle(task.subjectid)</span><span class="right">@task.formatDate()</span><br>
+						@task.caption
+					</li>
+				</a>
+			}
+	</ul>
+
+}
+
+@printRecvIine = {
+	<h2>もらったイイね</h2>
+	<ul>
+	@for(iine <- recvIines){
+		<a href="@routes.Application.task(iine.subjectid,iine.userid,None)">
+			<li class="outline iine">
+				<span class="left">@if(iine.isNew){<span class="new">New!!</span>&nbsp;}@Subjects.getTitle(iine.subjectid)</span>
+				<span class="right">@iine.formatDate()</span><br>
+			</li>
+		</a>
+	}
+	</ul>
+}
+
+@printPostComment={
+	<h2>投稿したコメント</h2>
+	<ul>
+	@for(cmt <-postComments){
+		<a href="@routes.Application.task(cmt.subjectid,cmt.userid,None)">
+			<li  class="outline">
+				<span class="left">@if(cmt.res){<span class="new">Res!!</span>&nbsp;}@Subjects.getTitle(cmt.subjectid)&nbsp;[@Users.getName(cmt.viewid)]</span>
+				<span class="right">@cmt.formatDate()</span><br>
+				@cmt.body
+			</li>
+		</a>
+	}
+	</ul>
+}
+
+@printRcvComment={
+	<h2>もらったコメント</h2>
+	<ul>
+	@for(cmt <- recvComments){
+		<a href="@routes.Application.task(cmt.subjectid,cmt.userid,None)">
+			<li class="outline">
+				<span class="left">@if(cmt.isNew){<span class="new">New!!</span>&nbsp;}@Subjects.getTitle(cmt.subjectid)&nbsp;[@Users.getName(cmt.viewid)]</span>
+				<span class="right">@cmt.formatDate()</span><br>
+				@cmt.body
+			</li>
+		</a>
+	}
+	</ul>
+}

@@ -1,0 +1,94 @@
+@(msg:String)
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("管理画面") {
+	
+	<div id="main">
+		<p>@msg</p>
+		
+		<div id="saveDB">
+                @form(routes.Manage.managed("saveDB")) {
+                    <input type="submit" value="DB保存">
+                }
+		</div>
+		&nbsp;
+		<div id="loadDB">
+                @form(routes.Manage.managed("loadDB")) {
+                    <input type="submit" value="DB読み込み">
+                }
+		</div>
+		&nbsp;
+		<div id="loadDemo">
+                @form(routes.Manage.managed("loadDemo")) {
+                    <input type="submit" value="Demoの読み込み">
+                }
+		</div>
+		&nbsp;
+		<div id="delDB">
+                @form(routes.Manage.managed("delDB")) {
+                    <input type="submit" value="DB削除">
+                }
+		</div>
+		<br>
+		
+		<div id="addUser">
+                @form(routes.Manage.managed("addUser")) {
+                	id<input type="text" name="userId" value=""><br>
+                	password<input type="text" name="userPassword" value=""><br>
+                    <input type="submit" value="ユーザー登録">
+                }
+		</div>
+		
+		<br>
+		<div id="addSubject">
+                @form(routes.Manage.managed("addSubject")) {
+                	 課題名<input type="text" name="subjectName" value=""><br>
+                    <input type="submit" value="タスク登録">
+                }
+		</div>
+		
+		<div id="users">
+		<p>登録ユーザー</p>
+			@allUsers
+		</div>
+
+		<div id="sbujects">
+		<p>登録課題</p>
+			@allSubjects
+		</div>
+		
+		
+	</div>
+}
+
+@users = @{Users.all()}
+@allUsers = {
+	<ul>
+	@users.map{ user=>
+		<li>
+		@form(routes.Manage.managed("deleteUser")) {
+			@user.id	:	@{user.password}
+		 	<input type="hidden" name="dUserId" value="@user.id">
+         	<input type="submit" value="Delete">
+         }
+		</li>
+	}
+	</ul>
+}
+
+@subjects = @{Subjects.all()}
+@allSubjects = {
+<ul>
+	@subjects.map{ sbj=>
+		<li>
+		@form(routes.Manage.managed("deleteSubject")) {
+			@sbj.subjectid:@sbj.name
+			<input type="hidden" name="dSubjectId" value="@sbj.subjectid">
+			<input type="hidden" name="dSubjectName" value="@sbj.name">
+         	<input type="submit" value="Delete">
+		}
+		</li>
+	}
+</ul>
+}

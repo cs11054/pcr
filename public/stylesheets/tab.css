@@ -1,0 +1,43 @@
+ul#tab {
+	zoom: 1;
+
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+}
+ul#tab:after { content:"."; display: block; height:0px; clear:both; line-height:0; visibility:hidden; }
+ul#tab li {
+	float: left;
+	text-align: center;
+	display: inline-block;
+}
+ul#tab li:last-child {
+	background: none;
+}
+ul#tab li a {
+	display: block;
+	width: 138px;
+	padding: 8px 0;
+	text-decoration: none;
+	color: #222;
+	background: #c9c3c4;
+}
+ul#tab li a:hover {
+	background: #c95560;
+	color: #fff;
+}
+ul#tab li.active,
+ul#tab li.active a,
+ul#tab li.active a:hover {
+	background: #c81528;
+	color: #fff;
+}
+#detail {
+	clear: both;
+	overflow: hidden;
+	padding:10px;
+	display:inline-block;
+}
+.tabbox {
+	display: none;
+}
