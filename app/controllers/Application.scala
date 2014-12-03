@@ -41,7 +41,7 @@ object Application extends Controller with myAuth with Utilities {
 
   // Comment	///////////////////////////////////////////////
   def cmtPost(sid: Int, tvid: String, tid: Int) = Authenticated { implicit req =>
-    Form(tuple("body" -> text, "anonymous" -> optional(text), "resCmts" -> optional(text))).bindFromRequest.fold(
+    Form(tuple("body" -> text, "anonymous" -> optional(text), "resCmts" -> optional(text), "resHeader" -> optional(text))).bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.task(sid, tvid, tid,
         Tasks.getCaptionAndCode(sid, tvid).zipWithIndex,
         Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。")),
@@ -55,6 +55,10 @@ object Application extends Controller with myAuth with Utilities {
           case Some(x) => x.split(",").toList
           case None => Nil
         }
+        val header = cmt._4 match {
+          case Some(x) => x + "\n"
+          case None => ""
+        }
         val trgRes = ress.flatMap { res =>
           try {
             Some(res.toInt)
@@ -63,7 +67,7 @@ object Application extends Controller with myAuth with Utilities {
           }
         }
         MyLogger.log(s"${req.session.get("user").get}${SEP}Comment ${sid}/${tvid}${SEP}${nowTime()}")
-        Comments.add(sid, tvid, user, cmt._1, vid, trgRes)
+        Comments.add(sid, tvid, user, header + cmt._1, vid, trgRes)
         Ok(views.html.task(sid, tvid, tid, Tasks.getCaptionAndCode(sid, tvid).zipWithIndex, Comments.commentsOfTask(sid, tvid), msg = "コメントを投稿しました。"))
       })
   }

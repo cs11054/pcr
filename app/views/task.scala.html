@@ -7,10 +7,19 @@
 @main("ソースコード",styles=List("tab","prettify","task"),jss=List("prettify","tab")) {
 <script>
 	function checkRes() {
-		var checkedBoxs = $('[class="resCheck"]:checked').map(function() {
-			return $(this).val();
+		var ids = $('[class="resCheck"]:checked').map(function() {
+			return $(this).val().split(',')[0];
 		}).get().join(',');
-		$("#rescmt").val(checkedBoxs);
+		var names = $('[class="resCheck"]:checked').map(function() {
+			return $(this).val().split(',')[1];
+		}).get().join(',');
+		$("#rescmt").val(ids);
+		if (names.length > 0) {
+			$("#resTo").html(">>" + names);
+			$("#reshdr").val(">>" + names);
+		} else {
+			$("#resTo").html("");
+		}
 	}
 </script>
 <div id="main">
@@ -28,13 +37,17 @@
 		@printComment()
 	</div>
 <hr>
+<p>コメントの投稿</p>
+<div class="comment">
 	@form(routes.Application.cmtPost(sid,vid,tid)) {
-		<p>コメントの投稿</p>
 		<input type="checkbox" name="anonymous" value="anony">匿名で投稿<br>
-		<textarea id="cmtbody" name="body" placeholder="コメントを入力(例:4行目のメソッド名はregistではなくregistrationが適切だと思います。)"  cols="60"></textarea><br>
+		<p id ="resTo"></p>
+		<textarea id="cmtbody" name="body" placeholder="コメントを入力(例:4行目のメソッド名はregistではなくregistrationが適切だと思います。)"  cols="60" style="height: 100px; width: 760px;"></textarea><br>
 		<input type="submit" value="コメント投稿">
 		<input type="hidden" id = "rescmt" name="resCmts" value="">
+		<input type="hidden" id = "reshdr" name="resHeader" value="">
 	}
+</div>
 @prettyPrintDecl()
 </div>
 }
@@ -45,7 +58,7 @@
 		@for(cmt <- comments){
 			<li class="comment" id="cmt@cmt.commentid">
 				@cmt.formatDate() @Users.getName(cmt.viewid) 
-				<input type="checkbox" name="cid" class ="resCheck" value="@cmt.commentid" onclick="checkRes();">返信
+				<input type="checkbox" name="cid" class ="resCheck" value="@cmt.commentid,@Users.getName(cmt.viewid) " onclick="checkRes();">返信
 				<pre >@cmt.body</pre>
 				
 			</li>
