@@ -46,42 +46,48 @@ object Application extends Controller with myAuth with Utilities {
         Tasks.getCaptionAndCode(sid, tvid).zipWithIndex,
         Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。")),
       cmt => {
-        val user = req.session.get("user").get
-        val vid = cmt._2 match {
-          case Some(x) => Users.ANONY + Anonymouser.anonyNum(List(user, sid, tvid))
-          case None => user
-        }
-        val ress = cmt._3 match {
-          case Some(x) => x.split(",").toList
-          case None => Nil
-        }
-        val header = cmt._4 match {
-          case Some(x) => x + "\n"
-          case None => ""
-        }
-        val trgRes = ress.flatMap { res =>
-          try {
-            Some(res.toInt)
-          } catch {
-            case e: Exception => None
+        if (!Comments.exists(sid, tvid) || cmt._1.isEmpty()) {
+          BadRequest(views.html.task(sid, tvid, tid, Tasks.getCaptionAndCode(sid, tvid).zipWithIndex,
+            Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。"))
+        } else {
+          val user = req.session.get("user").get
+          val vid = cmt._2 match {
+            case Some(x) => Users.ANONY + Anonymouser.anonyNum(List(user, sid, tvid))
+            case None => user
           }
+          val ress = cmt._3 match {
+            case Some(x) => x.split(",").toList
+            case None => Nil
+          }
+          val header = cmt._4 match {
+            case Some(x) => x + "\n"
+            case None => ""
+          }
+          val trgRes = ress.flatMap { res =>
+            try {
+              Some(res.toInt)
+            } catch {
+              case e: Exception => None
+            }
+          }
+          MyLogger.log(s"${req.session.get("user").get}${SEP}Comment ${sid}/${tvid}${SEP}${nowTime()}")
+          Comments.add(sid, tvid, user, header + cmt._1, vid, trgRes)
+          Ok(views.html.task(sid, tvid, tid, Tasks.getCaptionAndCode(sid, tvid).zipWithIndex, Comments.commentsOfTask(sid, tvid), msg = "コメントを投稿しました。"))
         }
-        MyLogger.log(s"${req.session.get("user").get}${SEP}Comment ${sid}/${tvid}${SEP}${nowTime()}")
-        Comments.add(sid, tvid, user, header + cmt._1, vid, trgRes)
-        Ok(views.html.task(sid, tvid, tid, Tasks.getCaptionAndCode(sid, tvid).zipWithIndex, Comments.commentsOfTask(sid, tvid), msg = "コメントを投稿しました。"))
       })
   }
 
   // IINE	////////////////////////////////////////////////////
   def iine(sid: Int, uid: String) = Authenticated { implicit req =>
-    Ok(views.html.iine(sid, uid, Iines.countIine(sid, uid)))
+    Ok(views.html.iine(sid, uid, Iines.countIineMap(sid, uid)))
   }
 
-  def pushIine(sid: Int, uid: String) = Authenticated { implicit req =>
+  def pushIine(sid: Int, uid: String, eff: Boolean = false, read: Boolean = false, strc: Boolean = false, help: Boolean = false) = Authenticated { implicit req =>
     val user = req.session.get("user").get
-    MyLogger.log(s"${user}${SEP}Iine ${sid}/${uid}${SEP}${nowTime()}")
-    Iines.add(sid, uid, user)
-    Ok(views.html.iine(sid, uid, Iines.countIine(sid, uid)))
+    val kind4Log = if (eff) "eff" else if (read) "read" else if (strc) "strc" else if (help) "help"
+    MyLogger.log(s"${user}${SEP}Iine ${kind4Log} ${sid}/${uid}${SEP}${nowTime()}")
+    Iines.add(sid, uid, user, eff, read, strc, help)
+    Ok(views.html.iine(sid, uid, Iines.countIineMap(sid, uid)))
   }
 
   // Upload	///////////////////////////////////////////////////
@@ -112,7 +118,7 @@ object Application extends Controller with myAuth with Utilities {
           _.getLines.mkString("\n")
         } getOrElse ("")
         src.ref.file.delete()
-        if (body != "") {
+        if (body != "" && Tasks.exists(sid)) {
           Tasks.add(sid, user, caption, body, vid)
           MyLogger.log(s"${req.session.get("user").get}${SEP}Upload ${sid} ${caption.isEmpty()}${SEP}${nowTime()}")
           Redirect(routes.Application.subject(sid, msg = "投稿しました。"))

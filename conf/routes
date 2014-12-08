@@ -15,7 +15,7 @@ GET    /subject/:sid             controllers.Application.subject(sid:Int,sort:St
 GET    /subject/:sid/:vid        controllers.Application.task(sid:Int,vid: String,tid:Option[Int])
 POST   /subject/:sid/:vid/:tid   controllers.Application.cmtPost(sid:Int,vid: String,tid:Int)
 GET    /iine                     controllers.Application.iine(sid:Int,uid: String)
-POST   /iine                     controllers.Application.pushIine(sid:Int,uid: String)
+POST   /iine                     controllers.Application.pushIine(sid:Int,uid: String,eff:Boolean ?= false,read:Boolean ?= false, strc:Boolean ?= false, help:Boolean ?= false )
 
 # Admin
 GET    /manage                   controllers.Manage.manage()

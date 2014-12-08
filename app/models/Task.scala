@@ -71,15 +71,20 @@ object Tasks extends Table[Task]("TASK") with DBSupport with XMLConv {
     Query(Tasks).filter(_.subjectid === sid).sortBy(_.date.desc).list
   }
 
+  def exists(sid: Int): Boolean = connectDB {
+    !Query(Tasks).filter(_.subjectid === sid).list.isEmpty
+  }
+
   def sortedTasksOfSbj(sid: Int, key: String): List[Task] = {
     val tasks = tasksOfNoDupSbj(sid)
+    tasks.foreach(t => println(Iines.iineOfTask(sid, t.viewid), Iines.countIine(sid, t.viewid)))
     key match {
       case "date" => tasks
       case "rdate" => tasks.reverse
-      case "iine" => tasks.map(t => t -> Iines.countIine(sid, t.userid)).sortBy(_._2)(Desc).map(_._1)
-      case "riine" => tasks.map(t => t -> Iines.countIine(sid, t.userid)).sortBy(_._2).map(_._1)
-      case "cmt" => tasks.map(t => t -> Comments.countComment(sid, t.userid)).sortBy(_._2)(Desc).map(_._1)
-      case "rcmt" => tasks.map(t => t -> Comments.countComment(sid, t.userid)).sortBy(_._2).map(_._1)
+      case "iine" => tasks.map(t => t -> Iines.countIine(sid, t.viewid)).sortBy(_._2)(Desc).map(_._1)
+      case "riine" => tasks.map(t => t -> Iines.countIine(sid, t.viewid)).sortBy(_._2).map(_._1)
+      case "cmt" => tasks.map(t => t -> Comments.countComment(sid, t.viewid)).sortBy(_._2)(Desc).map(_._1)
+      case "rcmt" => tasks.map(t => t -> Comments.countComment(sid, t.viewid)).sortBy(_._2).map(_._1)
       case _ => tasks.sortBy(_.date)(Desc)
     }
   }
@@ -98,7 +103,7 @@ object Tasks extends Table[Task]("TASK") with DBSupport with XMLConv {
   }
 
   def userTaskIds(uid: String): List[String] = connectDB {
-    Query(Tasks).filter(_.userid === uid).sortBy(_.taskid).list.map(_.viewid)
+    Query(Tasks).filter(_.userid === uid).sortBy(_.taskid).list.map(_.viewid).distinct
   }
 
   def add(subjectid: Int, userid: String, caption: String, body: String, vid: String): Int = connectDB {

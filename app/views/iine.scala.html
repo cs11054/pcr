@@ -1,4 +1,4 @@
-@(sid:Int,uid:String,iineCount:Int)
+@(sid:Int,uid:String,iineMap:Map[String,Int])
 @import helper._
 @import helper.twitterBootstrap._
 @import models.Comments
@@ -22,12 +22,20 @@
 .iinebutton:hover {
 	opacity: 0.8;
 }
+
+li{
+	display: inline-block;
+	margin: 3px 3px 0;	
+}
 	
-    </style>  
+   </style>  
 </head>
 	<body>
-		@form(routes.Application.pushIine(sid,uid)) {
-			<input type="submit" value="いいね！[@iineCount]" class="iinebutton">
-		}
+	<ul>
+		<li>@form(routes.Application.pushIine(sid,uid,eff=true)) {<input type="submit" value="効率よさそう！[@iineMap.getOrElse(Iines.EFF,0)]" class="iinebutton">	}</li>
+		<li>@form(routes.Application.pushIine(sid,uid,read=true)) {<input type="submit" value="読みやすい！[@iineMap.getOrElse(Iines.READ,0)]" class="iinebutton">}</li>
+		<li>@form(routes.Application.pushIine(sid,uid,strc=true)) {<input type="submit" value="構造がよさそう！[@iineMap.getOrElse(Iines.STRC,0)]" class="iinebutton">}</li>
+		<li>@form(routes.Application.pushIine(sid,uid,help=true)) {<input type="submit" value="参考になった！[@iineMap.getOrElse(Iines.HELP,0)]" class="iinebutton">}</li>
+	</ul>
 	</body>
 </html>
