@@ -77,7 +77,6 @@ object Tasks extends Table[Task]("TASK") with DBSupport with XMLConv {
 
   def sortedTasksOfSbj(sid: Int, key: String): List[Task] = {
     val tasks = tasksOfNoDupSbj(sid)
-    tasks.foreach(t => println(Iines.iineOfTask(sid, t.viewid), Iines.countIine(sid, t.viewid)))
     key match {
       case "date" => tasks
       case "rdate" => tasks.reverse

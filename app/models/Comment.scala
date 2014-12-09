@@ -6,7 +6,8 @@ import java.util.Date
 import util.Utilities
 import util.XMLConv
 
-case class Comment(subjectid: Int, userid: String, commentid: Int, postUser: String, body: String, date: Long, isNew: Boolean, viewid: String, res: Boolean) {
+case class Comment(subjectid: Int, userid: String, commentid: Int, postUser: String, body: String,
+  date: Long, isNew: Boolean, viewid: String, res: Boolean) {
 
   def formatDate(form: String = "yyyy/mm/dd hh:mm"): String = form match {
     case "yyyy/mm/dd hh:mm" => "%tY/%<tm/%<td %<tR" format new Date(date)
