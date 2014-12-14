@@ -154,4 +154,9 @@ object Application extends Controller with myAuth with Utilities {
     Redirect(routes.Application.login).withNewSession
   }
 
+  // Help //////////////////////////////////////////////////////
+  def help = Action { implicit req =>
+    Ok(views.html.help())
+  }
+
 }

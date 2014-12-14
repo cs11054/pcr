@@ -86,6 +86,30 @@ body {
 	background-color: #34495e;
 }
 
+.help{
+	display: inline;
+	padding: 0;
+	margin: 0;
+	float: left;
+	padding: 5px;
+	float: right;
+}
+.help a{
+	border-radius: 5px;
+	display: block;
+	background-color: #7f8c8d;
+	padding: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	text-decoration: none;
+	color: #ecf0f1;
+	width: 64px;
+	margin: 1px 0px;
+	text-align: center;
+}
+.help a:hover{
+		background-color: #34495e;
+}
 .logout {
 	float: right;
 	background-color: #7f8c8d;
