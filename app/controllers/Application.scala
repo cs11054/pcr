@@ -44,11 +44,11 @@ object Application extends Controller with myAuth with Utilities {
     Form(tuple("body" -> text, "anonymous" -> optional(text), "resCmts" -> optional(text), "resHeader" -> optional(text))).bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.task(sid, tvid, tid,
         Tasks.getCaptionAndCode(sid, tvid).zipWithIndex,
-        Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。")),
+        Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。(フォームエラー)")),
       cmt => {
-        if (!Comments.exists(sid, tvid) || cmt._1.isEmpty()) {
+        if (!Tasks.exists(sid, tvid) || cmt._1.isEmpty()) {
           BadRequest(views.html.task(sid, tvid, tid, Tasks.getCaptionAndCode(sid, tvid).zipWithIndex,
-            Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。"))
+            Comments.commentsOfTask(sid, tvid), msg = "コメントの投稿に失敗しました。(コメントが空or存在しないプログラムへの投稿)"))
         } else {
           val user = req.session.get("user").get
           val vid = cmt._2 match {

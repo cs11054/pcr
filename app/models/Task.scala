@@ -54,6 +54,10 @@ object Tasks extends Table[Task]("TASK") with DBSupport with XMLConv {
     list.foreach(add(_))
   }
 
+  def exists(sid: Int, uid: String): Boolean = connectDB {
+    !Query(Tasks).filter(x => x.subjectid === sid && x.viewid === uid).list().isEmpty
+  }
+
   def add(t: Task) = connectDB {
     if (!Query(Tasks).list().exists(x => x.subjectid == t.subjectid && x.viewid == t.viewid && x.taskid == t.taskid))
       Tasks.ins.insert(t.subjectid, t.userid, t.taskid, t.caption, t.body, t.date, t.viewid)

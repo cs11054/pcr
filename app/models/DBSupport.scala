@@ -8,7 +8,7 @@ trait DBSupport {
 
   val Heroku = false
 
-  val DB_PATH = if (!Heroku) "jdbc:h2:tcp://localhost:9093/db"
+  val DB_PATH = if (!Heroku) "jdbc:h2:tcp://localhost:9092/./db"
   else "jdbc:postgresql://localhost:5432/postgres" //"postgres://zcgmsoybywazlx:HQt5HBNiYxgDE4LdQ337Ry_urb@ec2-54-83-204-78.compute-1.amazonaws.com:5432/dcn5isfl4oitng"
 
   val DRIVER = if (DB_PATH.contains("localhost")) "org.h2.Driver" else "org.postgresql.Driver"

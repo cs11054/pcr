@@ -63,10 +63,6 @@ object Comments extends Table[Comment]("COMMENT") with DBSupport with XMLConv {
       Comments.ins.insert(c.subjectid, c.userid, c.commentid, c.postUser, c.body, c.date, c.isNew, c.viewid, c.res)
   }
 
-  def exists(sid: Int, uid: String): Boolean = connectDB {
-    !Query(Comments).filter(x => x.subjectid === sid && x.viewid === uid).list().isEmpty
-  }
-
   def all(): List[Comment] = connectDB {
     Query(Comments).sortBy(_.date).list
   }
