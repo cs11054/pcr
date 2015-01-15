@@ -116,9 +116,11 @@ object Application extends Controller with myAuth with Utilities {
       if (src.filename.endsWith(".java")) {
         val body = using(Source.fromFile(src.ref.file.getAbsoluteFile(), "UTF-8")) {
           _.getLines.mkString("\n")
-        } getOrElse ("")
+        } getOrElse (using(Source.fromFile(src.ref.file.getAbsoluteFile(), "SJIS")) {
+          _.getLines.mkString("\n")
+        }).getOrElse("")
         src.ref.file.delete()
-        if (body != "" && Tasks.exists(sid)) {
+        if (body != "" && Subjects.exists(sid)) {
           Tasks.add(sid, user, caption, body, vid)
           MyLogger.log(s"${req.session.get("user").get}${SEP}Upload ${sid} ${caption.isEmpty()}${SEP}${nowTime()}")
           Redirect(routes.Application.subject(sid, msg = "投稿しました。"))

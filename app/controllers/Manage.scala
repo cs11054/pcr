@@ -14,6 +14,7 @@ import models.Iines
 import models.Comments
 import models.FamillyNames
 import util.Utilities
+import java.io.File
 
 object Manage extends Controller with myAuth {
 
@@ -36,23 +37,25 @@ object Manage extends Controller with myAuth {
   // DBのデータ保存
   private def save(path: String) {
     println("DBのデータを保存しました")
-    Users.save(path)
-    Tasks.save(path)
-    Subjects.save(path)
-    Iines.save(path)
-    Comments.save(path)
-    FamillyNames.save(path)
+    val dir = path + "/"
+    Users.save(dir)
+    Tasks.save(dir)
+    Subjects.save(dir)
+    Iines.save(dir)
+    Comments.save(dir)
+    FamillyNames.save(dir)
   }
 
   // DBのデータ読み込み
   private def load(path: String) {
     println("DBのデータを読み込みました")
-    Users.load(path)
-    Tasks.load(path)
-    Subjects.load(path)
-    Iines.load(path)
-    Comments.load(path)
-    FamillyNames.load(path)
+    val dir = path + "/"
+    Users.load(dir)
+    Tasks.load(dir)
+    Subjects.load(dir)
+    Iines.load(dir)
+    Comments.load(dir)
+    FamillyNames.load(dir)
   }
   // DBのデータを消す
   private def del() {
@@ -65,7 +68,16 @@ object Manage extends Controller with myAuth {
     FamillyNames.allDel
   }
 
-  val SAVE_PATH = "./db/"
+  val SAVE_PATH = "./db"
+  val dir = new File(SAVE_PATH)
+  if (!dir.exists()) dir.mkdir()
+  val dir1 = new File(SAVE_PATH + "/bk/")
+  if (!dir1.exists()) {
+    println(dir1.mkdir()+"bk")
+  }
+  val dir2 = new File(SAVE_PATH + "./demo/")
+  if (!dir2.exists()) dir2.mkdir()
+
   def managed(kind: String) = Administor { implicit request =>
     kind match {
       case "saveDB" =>

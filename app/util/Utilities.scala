@@ -9,7 +9,7 @@ trait Utilities {
       Some(func(resource)) // 成功したら、Someに包んで返す
     } catch {
       case e: Exception =>
-        e.printStackTrace
+        println(e.printStackTrace)
         None // 失敗したら、ログ吐いて、None返す
     } finally {
       if (resource != null) resource.close()

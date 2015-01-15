@@ -99,7 +99,7 @@ object Comments extends Table[Comment]("COMMENT") with DBSupport with XMLConv {
     val cmts = recvCmts(ids)
     val news = cmts.filter(c => c.isNew && c.postUser != id)
     val limit = if (n >= news.size) n - news.size else 0
-    val ret = news ::: cmts.sortBy(_.date)(Desc).take(limit)
+    val ret = news ::: cmts.filter(c => !c.isNew && c.postUser != id).sortBy(_.date)(Desc).take(limit)
     ids.foreach(id => Query(Comments).filter(c => c.userid === id && c.isNew).map(_.isNew).update(false))
     ret
   }

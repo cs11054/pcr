@@ -54,6 +54,10 @@ object Subjects extends Table[Subject]("SUBJECT") with DBSupport with XMLConv {
     Query(Subjects).sortBy(_.subjectid.desc).list
   }
 
+  def exists(sid: Int): Boolean = connectDB {
+    !Query(Subjects).filter(_.subjectid === sid).list.isEmpty
+  }
+
   def getTitle(sid: Int): String = snameMap.get(sid) match {
     case Some(x) => x
     case None =>

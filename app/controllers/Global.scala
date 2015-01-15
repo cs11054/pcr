@@ -12,6 +12,8 @@ object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
     println("システムスタート")
+      println(new File(".").getAbsoluteFile().getParent())
+
   }
 
   override def onStop(app: Application) {

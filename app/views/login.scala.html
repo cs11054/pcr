@@ -7,7 +7,8 @@
 @main("ログイン") {
 	
 	<h1>ログインフォーム</h1>
-	
+	<p>※プログラムはJavaで作成し、「.java」ファイルを提出してください</p>
+	<p>文字コードがSJISに対応していなかった問題を修正</p>
 	@form(routes.Application.loginCheck) {
 		@helper.inputText(loginForm("id"))
 		@helper.inputPassword(loginForm("password"))
